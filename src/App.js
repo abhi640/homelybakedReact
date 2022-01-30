@@ -1,18 +1,21 @@
 import React from 'react';
-
-import { Chef, Footer, Gallery, Header, SpecialMenu } from './container';
+import { Routes, Route, Link } from 'react-router-dom';
+import { Footer } from './container';
+import { Home } from './pages/home/Home';
 import { Navbar } from './components';
+import Signin from './pages/signin/Signin.jsx';
+
 import './App.css';
 
 const App = () => (
   <div>
     <Navbar />
-    <Header />
 
-    <SpecialMenu />
-    <Chef />
+    <Routes>
+      <Route exact path="/" element={<Home />} />
 
-    <Gallery />
+      <Route path="signin" element={<Signin />} />
+    </Routes>
 
     <Footer />
   </div>
