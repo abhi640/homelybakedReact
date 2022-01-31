@@ -3,25 +3,60 @@ import { Routes, Route, Link } from 'react-router-dom';
 import { Footer } from './container';
 import { Home } from './pages/home/Home';
 import { Navbar } from './components';
-import Signin from './pages/signin/Signin.jsx';
+import SignInSignUp from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component.jsx';
 import Shop from './pages/shop/shop';
+
+import { auth, createUserProfileDocument } from './firebase/firebase.utils';
 
 import './App.css';
 
-const App = () => (
-  <div>
-    <Navbar />
+class App extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      currentUser: null,
+    };
+  }
+  unsubscribeFromAuth = null;
 
-    <Routes>
-      <Route exact path="/" element={<Home />} />
+  componentDidMount() {
+    this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
+      if (userAuth) {
+        const userRef = await createUserProfileDocument(userAuth);
 
-      <Route exact path="/signin" element={<Signin />} />
+        userRef.onSnapshot((snapShot) => {
+          this.setState({
+            currentUser: {
+              id: snapShot.id,
+              ...snapShot.data(),
+            },
+          });
+        });
+      }
 
-      <Route exact path="/shop" element={<Shop />} />
-    </Routes>
+      this.setState({ currentUser: userAuth });
+    });
+  }
+  componentWillUnmount() {
+    this.unsubscribeFromAuth();
+  }
+  render() {
+    return (
+      <div>
+        <Navbar />
 
-    <Footer />
-  </div>
-);
+        <Routes>
+          <Route exact path="/" element={<Home />} />
+
+          <Route path="/login" element={<SignInSignUp />} />
+
+          <Route path="/shop" element={<Shop />} />
+        </Routes>
+
+        <Footer />
+      </div>
+    );
+  }
+}
 
 export default App;
