@@ -9,7 +9,6 @@ export const Home = () => {
       <SpecialMenu />
       <Chef />
       <Gallery />
-      <Footer />
     </div>
   );
 };
