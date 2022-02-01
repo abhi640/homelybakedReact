@@ -40,9 +40,10 @@ const Navbar = ({ currentUser }) => {
             Log In
           </Link>
         )}
-        <a href="/" className="p__opensans">
+
+        <Link to="/shop" className="p__opensans">
           Shop Now
-        </a>
+        </Link>
       </div>
       <div></div>
       <div className="app__navbar-smallscreen">
