@@ -43,7 +43,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <Navbar />
+        <Navbar currentUser={this.state.currentUser} />
 
         <Routes>
           <Route exact path="/" element={<Home />} />

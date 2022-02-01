@@ -1,15 +1,19 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { auth } from '../../firebase/firebase.utils';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { MdOutlineRestaurantMenu } from 'react-icons/md';
 import images from '../../constants/images';
 import './Navbar.css';
 
-const Navbar = () => {
+const Navbar = ({ currentUser }) => {
   const [toggleMenu, setToggleMenu] = React.useState(false);
   return (
     <nav className="app__navbar">
       <div className="app__navbar-logo">
-        <img src={images.hblogo} alt="app__logo" />
+        <Link to="/">
+          <img src={images.hblogo} alt="app__logo" />
+        </Link>
       </div>
       <ul className="app__navbar-links">
         <li className="p__opensans">
@@ -27,14 +31,20 @@ const Navbar = () => {
         </li>
       </ul>
       <div className="app__navbar-login">
-        <a href="#login" className="p__opensans">
-          Log In / Sign Up
-        </a>
-        <div />
+        {currentUser ? (
+          <div className="p__opensans_navbar" onClick={() => auth.signOut()}>
+            Log Out
+          </div>
+        ) : (
+          <Link to="/login" className="p__opensans">
+            Log In
+          </Link>
+        )}
         <a href="/" className="p__opensans">
           Shop Now
         </a>
       </div>
+      <div></div>
       <div className="app__navbar-smallscreen">
         <GiHamburgerMenu
           color="#96351A"
