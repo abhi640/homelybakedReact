@@ -4,10 +4,13 @@ import { connect } from 'react-redux';
 import { auth } from '../../firebase/firebase.utils';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { MdOutlineRestaurantMenu } from 'react-icons/md';
+
+import CartDropdown from '../cart-dropdown/cart-dropdown.component';
 import images from '../../constants/images';
 import './Navbar.css';
+import CartIcon from '../cart-icon/cart-icon.component';
 
-const Navbar = ({ currentUser }) => {
+const Navbar = ({ currentUser, hidden }) => {
   const [toggleMenu, setToggleMenu] = React.useState(false);
   return (
     <nav className="app__navbar">
@@ -45,7 +48,10 @@ const Navbar = ({ currentUser }) => {
         <Link to="/shop" className="p__opensans">
           Shop Now
         </Link>
+        <CartIcon />
       </div>
+      {hidden ? null : <CartDropdown />}
+
       <div></div>
       <div className="app__navbar-smallscreen">
         <GiHamburgerMenu
@@ -90,8 +96,9 @@ const Navbar = ({ currentUser }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  currentUser: state.user.currentUser,
+const mapStateToProps = ({ user: { currentUser }, cart: { hidden } }) => ({
+  currentUser,
+  hidden,
 });
 
 export default connect(mapStateToProps)(Navbar);
