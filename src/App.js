@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { Footer } from './container';
@@ -15,12 +15,6 @@ import { setCurrentUser } from './redux/user/user.actions';
 import './App.css';
 
 class App extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      currentUser: null,
-    };
-  }
   unsubscribeFromAuth = null;
 
   componentDidMount() {
@@ -51,9 +45,14 @@ class App extends React.Component {
         <Routes>
           <Route exact path="/" element={<Home />} />
 
-          <Route path="/login" element={<SignInSignUp />} />
-
           <Route path="/shop" element={<Shop />} />
+          <Route
+            exact
+            path="/login"
+            element={
+              this.props.currentUser ? <Navigate to="/" /> : <SignInSignUp />
+            }
+          />
         </Routes>
 
         <Footer />
@@ -62,8 +61,12 @@ class App extends React.Component {
   }
 }
 
+const mapStateToProps = ({ user }) => ({
+  currentUser: user.currentUser,
+});
+
 const mapDispatchToProps = (dispatch) => ({
   setCurrentUser: (user) => dispatch(setCurrentUser(user)),
 });
 
-export default connect(null, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);
