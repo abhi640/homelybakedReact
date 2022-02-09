@@ -12,7 +12,7 @@ import { Footer } from './container';
 import { Home } from './pages/home/Home';
 import { Navbar } from './components';
 import SignInSignUp from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component.jsx';
-import Shop from './pages/shop/shop';
+import Shop from './pages/shop/shop.component.jsx';
 
 import { auth, createUserProfileDocument } from './firebase/firebase.utils';
 
